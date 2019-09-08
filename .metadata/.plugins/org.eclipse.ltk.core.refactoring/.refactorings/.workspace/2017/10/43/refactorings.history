@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Delete resource &apos;FontFrame&apos;" deleteContents="false" description="Delete resource &apos;FontFrame&apos;" element1="/FontFrame" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1508846567865"/>
+</session>

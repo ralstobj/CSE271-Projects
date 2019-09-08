@@ -1,0 +1,25 @@
+N
+How many parameters does a copy constructor accept?
+1
+S
+What standard Java class do all classes inherit from?
+Object
+T
+To compare two char values, use the equals() method.
+false
+M
+Which types are good for storing numbers with decimal points?
+- String
++ double
+- boolean
+- int
+
+M
+What is "computer".substring(3, 5)?
+- mpute
++ pu
+- put
+
+N
+What is the value of pi?
+3.141592653

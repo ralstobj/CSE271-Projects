@@ -1,0 +1,109 @@
+//Authored by ralstobj and zhaog2
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.util.Scanner;
+
+public class BankTester {
+
+	public final static int RECORD_SIZE = 12;
+	static RandomAccessFile file;
+
+	public static void main(String args[]) throws IOException {
+		Scanner s = new Scanner(System.in);
+
+		while (true) {
+			System.out.println("Enter filename");
+			try {
+				String filename = s.next();
+				openFile(filename);
+				break;
+			} catch (FileNotFoundException e) {
+				System.out.println("File not found try again");
+			}
+		}
+		while (true) {
+
+			System.out.println("What would you like to do?");
+			System.out.println("Add account(a)");
+			System.out.println("Find account(f)");
+			System.out.println("Make a deposit(d)");
+			System.out.println("Exit program(e)");
+			String response = s.next();
+			if (response.equalsIgnoreCase("e")) {
+				break;
+			} else if (response.equalsIgnoreCase("a")) {
+				System.out.println("Enter acct number");
+				int acctNum = s.nextInt();
+				System.out.println("Enter Balance");
+				double balance = s.nextDouble();
+				write(size() + 1, acctNum, balance);
+			} else if (response.equalsIgnoreCase("d")) {
+				System.out.println("Enter acct number");
+				int acctNum = s.nextInt();
+				int val = findAcct(acctNum);
+				if (val != -1) {
+					System.out.println("Enter Deposit Amount");
+					double deposit = s.nextDouble();
+					if (deposit > 0) {
+						BankAccount b = read(val);
+						double newMoney = b.getBalance() + deposit;
+						write(val, acctNum, newMoney);
+					}
+
+				} else {
+					System.out.println("Acct not Found");
+				}
+			} else if (response.equalsIgnoreCase("f")) {
+				System.out.println("Enter acct number");
+				int acctNum = s.nextInt();
+				int val = findAcct(acctNum);
+				if (val != -1) {
+					System.out.println(read(val).toString());
+				} else {
+					System.out.println("Acct not Found");
+				}
+			}
+
+		}
+		closeFile();
+		s.close();
+	}
+
+	public static int findAcct(int acctNum) throws IOException {
+		for (int i = 0; i < size(); i++) {
+			file.seek(i * RECORD_SIZE);
+			if (acctNum == file.readInt()) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	public static void openFile(String filename) throws FileNotFoundException {
+		file = new RandomAccessFile(new File(filename), "rw");
+	}
+
+	public static void closeFile() throws IOException {
+		file.close();
+	}
+
+	public static void write(int n, int num, double bal) throws IOException {
+
+		file.seek(n * RECORD_SIZE);
+		file.writeInt(num);
+		file.writeDouble(bal);
+	}
+
+	public static BankAccount read(int n) throws IOException {
+		file.seek(n * RECORD_SIZE);
+		int acctNum = file.readInt();
+		double balance = file.readDouble();
+		return new BankAccount(acctNum, balance);
+	}
+
+	public static int size() throws IOException {
+		return (int) (file.length() / RECORD_SIZE);
+	}
+}

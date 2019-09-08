@@ -1,0 +1,34 @@
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
+import java.util.ArrayList;
+
+public class Bank implements Serializable {
+	
+	private ArrayList<BankAccount> accounts;
+	private FileInputStream inn;
+	private ObjectInputStream in;
+	
+	public Bank(){
+		accounts = new ArrayList<BankAccount>();
+		
+	}
+	
+	public void addAccount(BankAccount ba){
+		accounts.add(ba);
+	}
+	public BankAccount getBankAccount(int i){
+		return accounts.get(i);
+	}
+	public BankAccount findAccount(int accountNum){
+		for(int i = 0; i< accounts.size(); i++){
+			if(accounts.get(i).getAcctNum() == accountNum){
+				return accounts.get(i);
+			}
+		}
+		return null;
+		
+	}
+}
